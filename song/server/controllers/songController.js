@@ -17,8 +17,8 @@ const serveSong = (req, res) => {
 };
 
 const createSong = (req, res) => {
-	const { songName } = req.body;
-	const newSong = new Song(songName);
+	const { songName, songArtist } = req.body;
+	const newSong = new Song(songName, songArtist);
 	res.send(newSong);
 };
 
@@ -32,9 +32,20 @@ const editSongName = (req, res) => {
 	}
 	res.send(updatedSong);
 };
+
+const deleteSong = (req, res) => {
+	const { id } = req.params;
+	const deletedSong = Song.delete(Number(id));
+	if (!deletedSong) {
+		res.sendStatus(404);
+		return;
+	} else res.sendStatus(204);
+};
+
 module.exports = {
 	serveSongs,
 	createSong,
 	editSongName,
 	serveSong,
+	deleteSong,
 };
